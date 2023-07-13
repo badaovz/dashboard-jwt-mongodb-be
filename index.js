@@ -8,7 +8,13 @@ const userRoute = require('./routes/user');
 
 dotenv.config();
 const app = express();
-app.use(cors());
+
+app.use(
+    cors({
+        origin: process.env.CORS_ORIGIN,
+        credentials: true,
+    }),
+);
 app.use(cookieParser());
 app.use(express.json());
 
@@ -16,9 +22,9 @@ mongoose.connect(process.env.MONGODB_URL, () => {
     console.log('Mongo connect success!');
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 app.get('/', function (req, res) {
-    res.send('hello world');
+    res.send({});
 });
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
